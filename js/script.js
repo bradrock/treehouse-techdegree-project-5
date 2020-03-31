@@ -4,17 +4,22 @@
 //randomPersonInfo is variable that will hold result of JSON request
 var randomPersonInfo;
 
+const galleryPopulation = 12;
+
 
 //set up variables for DOM elements
 const galleryDiv = document.getElementById("gallery");
 
 const bodyElement = document.querySelector("body");
 
+const searchContainerDiv = document.querySelector("div.search-container");
 
 
 
 
-//set up the parameter of the modal window
+
+
+//set up the parameters of the modal window
 //data not added until a card is clicked on
 
 let modalContainerDiv = document.createElement("DIV");
@@ -25,86 +30,146 @@ let modalCloseButton = document.createElement("BUTTON");
 
 modalContainerDiv.classList.add("modal-container");
 
-    bodyElement.appendChild(modalContainerDiv);
+bodyElement.appendChild(modalContainerDiv);
 
-    const modalDiv = document.createElement("DIV");
+const modalDiv = document.createElement("DIV");
 
-    modalDiv.classList.add("modal");
+modalDiv.classList.add("modal");
 
-    modalContainerDiv.appendChild(modalDiv);
+modalContainerDiv.appendChild(modalDiv);
 
-    //modalCloseButton = document.createElement("button");
+modalCloseButton.setAttribute("type", "button");
 
-    modalCloseButton.setAttribute("type", "button");
+modalCloseButton.id = "modal-close-btn";
 
-    modalCloseButton.id = "modal-close-btn";
+modalCloseButton.classList.add("modal-close-btn");
 
-    modalCloseButton.classList.add("modal-close-btn");
+modalDiv.appendChild(modalCloseButton);
 
-    modalDiv.appendChild(modalCloseButton);
+const XStrongElement = document.createElement("STRONG");
 
-    const XStrongElement = document.createElement("STRONG");
+XStrongElement.innerText = "X";
 
-    XStrongElement.innerText = "X";
+modalCloseButton.appendChild(XStrongElement);
 
-    modalCloseButton.appendChild(XStrongElement);
+const modalInfoContainer = document.createElement("DIV");
 
-    const modalInfoContainer = document.createElement("DIV");
+modalInfoContainer.classList.add("modal-info-container");
 
-    modalInfoContainer.classList.add("modal-info-container");
-    
-    modalDiv.appendChild(modalInfoContainer);
+modalDiv.appendChild(modalInfoContainer);
 
-    const modalImage = document.createElement("IMG");
+const modalImage = document.createElement("IMG");
 
-    modalImage.classList.add("modal-img");
+modalImage.classList.add("modal-img");
 
-    modalImage.setAttribute("alt", "profile picture");
+modalImage.setAttribute("alt", "profile picture");
 
-    modalInfoContainer.appendChild(modalImage);
+modalInfoContainer.appendChild(modalImage);
 
-    const modalNameH3Element = document.createElement("H3");
+const modalNameH3Element = document.createElement("H3");
 
-    modalNameH3Element.id = "name";
+modalNameH3Element.classList.add("modal-name", "cap");
 
-    modalNameH3Element.classList.add("modal-name", "cap");
+modalInfoContainer.appendChild(modalNameH3Element);
 
-    modalInfoContainer.appendChild(modalNameH3Element);
+const modalEmailPElement = document.createElement("P");
 
-    const modalEmailPElement = document.createElement("P");
+modalEmailPElement.classList.add("modal-text");
 
-    modalEmailPElement.classList.add("modal-text");
+modalInfoContainer.appendChild(modalEmailPElement);
 
-    modalInfoContainer.appendChild(modalEmailPElement);
+const modalCityPElement = document.createElement("P");
 
-    const modalCityPElement = document.createElement("P");
+modalCityPElement.classList.add("modal-text", "cap");
 
-    modalCityPElement.classList.add("modal-text", "cap");
+modalInfoContainer.appendChild(modalCityPElement);
 
-    modalInfoContainer.appendChild(modalCityPElement);
+const modalHrTag = document.createElement("HR");
 
-    const modalHrTag = document.createElement("HR");
+modalInfoContainer.appendChild(modalHrTag);
 
-    modalInfoContainer.appendChild(modalHrTag);
+const modalPhonePElement = document.createElement("P");
 
-    const modalPhonePElement = document.createElement("P");
+modalPhonePElement.classList.add("modal-text");
 
-    modalPhonePElement.classList.add("modal-text");
+modalInfoContainer.appendChild(modalPhonePElement);
 
-    modalInfoContainer.appendChild(modalPhonePElement);
+const modalAddressPElement = document.createElement("P");
 
-    const modalAddressPElement = document.createElement("P");
+modalAddressPElement.classList.add("modal-text");
 
-    modalAddressPElement.classList.add("modal-text");
+modalInfoContainer.appendChild(modalAddressPElement);
 
-    modalInfoContainer.appendChild(modalAddressPElement);
+const modalBirthdayPElement = document.createElement("P");
 
-    const modalBirthdayPElement = document.createElement("P");
+modalBirthdayPElement.classList.add("modal-text");
 
-    modalBirthdayPElement.classList.add("modal-text");
+modalInfoContainer.appendChild(modalBirthdayPElement);
 
-    modalInfoContainer.appendChild(modalBirthdayPElement);
+const modalButtonContainer = document.createElement("DIV");
 
+modalButtonContainer.classList.add("modal-btn-container");
+
+modalContainerDiv.appendChild(modalButtonContainer);
+
+const modalPrevButton = document.createElement("BUTTON");
+
+modalPrevButton.id = "modal-prev";
+
+modalPrevButton.classList.add("modal-prev", "btn");
+
+modalPrevButton.innerText = "Prev";
+
+modalButtonContainer.appendChild(modalPrevButton);
+
+const modalNextButton = document.createElement("BUTTON");
+
+modalNextButton.id = "modal-next";
+
+modalNextButton.classList.add("modal-next", "btn");
+
+modalNextButton.innerText = "Next";
+
+modalButtonContainer.appendChild(modalNextButton);
+
+
+
+
+
+//set up the search form
+const searchForm = document.createElement("FORM");
+
+searchForm.setAttribute("action", "#");
+
+searchForm.setAttribute("method", "get");
+
+searchContainerDiv.appendChild(searchForm);
+
+
+const searchInputField = document.createElement("INPUT");
+
+searchInputField.setAttribute("type", "search");
+
+searchInputField.setAttribute("placeholder", "Search...");
+
+searchInputField.id = "search-input";
+
+searchInputField.classList.add("search-input");
+
+searchForm.appendChild(searchInputField);
+
+
+const searchSubmit = document.createElement("INPUT");
+
+searchSubmit.setAttribute("type", "submit");
+
+searchSubmit.setAttribute("value", '\ud83d\udd0d');
+
+searchSubmit.id = "search-submit";
+
+searchSubmit.classList.add("search-submit");
+
+searchForm.appendChild(searchSubmit);
 
 
 
@@ -112,78 +177,80 @@ modalContainerDiv.classList.add("modal-container");
 
 
 //http request for data for 12 people
-  var request = new XMLHttpRequest();
+var request = new XMLHttpRequest();
 
-  request.open('GET', 'https://randomuser.me/api/?results=12&nat=us');
+  
+request.open('GET', 'https://randomuser.me/api/?results=' + galleryPopulation + '&nat=us');
 
-  request.onreadystatechange = function () {
+request.onreadystatechange = function () {
 
-  if(request.readyState === 4 && request.status === 200) {
+      if(request.readyState === 4 && request.status === 200) {
 
-    randomPersonInfo = JSON.parse(request.responseText);
+      randomPersonInfo = JSON.parse(request.responseText);
 
-    console.log(randomPersonInfo);
+      console.log(randomPersonInfo);
 
 
-    //loop sets up a gallery card for each person
-    for (i=0; i<randomPersonInfo.results.length; i++)
-    {
-    
-      const cardDiv = document.createElement("DIV");
+      
+      //loop sets up a gallery card for each person
+      for (i=0; i<randomPersonInfo.results.length; i++)
+      {
+      
+        const cardDiv = document.createElement("DIV");
 
-      cardDiv.classList.add("card");
+        cardDiv.classList.add("card");
 
-      cardDiv.setAttribute("data-index", i.toString())
+        cardDiv.setAttribute("data-index", i.toString())
 
-      galleryDiv.appendChild(cardDiv);
+        galleryDiv.appendChild(cardDiv);
 
-      const cardImgContainerDiv = document.createElement("DIV");
+        const cardImgContainerDiv = document.createElement("DIV");
 
-      cardImgContainerDiv.classList.add("card-img-container");
+        cardImgContainerDiv.classList.add("card-img-container");
 
-      cardDiv.appendChild(cardImgContainerDiv);
+        cardDiv.appendChild(cardImgContainerDiv);
 
-      const image = document.createElement("IMG");
+        const image = document.createElement("IMG");
 
-      image.classList.add("card-img");
+        image.classList.add("card-img");
 
-      image.setAttribute("src", randomPersonInfo.results[i].picture.large);
+        image.setAttribute("src", randomPersonInfo.results[i].picture.large);
 
-      image.setAttribute("alt", "profile picture");
+        image.setAttribute("alt", "profile picture");
 
-      cardImgContainerDiv.appendChild(image);
+        cardImgContainerDiv.appendChild(image);
 
-      const cardInfoContainerDiv = document.createElement("DIV");
+        const cardInfoContainerDiv = document.createElement("DIV");
 
-      cardInfoContainerDiv.classList.add("card-info-container");
+        cardInfoContainerDiv.classList.add("card-info-container");
 
-      cardDiv.appendChild(cardInfoContainerDiv);
+        cardDiv.appendChild(cardInfoContainerDiv);
 
-      const nameH3Element = document.createElement("H3");
+        const nameH3Element = document.createElement("H3");
 
-      nameH3Element.setAttribute("id", "name");
+        nameH3Element.id = randomPersonInfo.results[i].name.first + "-" + randomPersonInfo.results[i].name.last;
 
-      nameH3Element.classList.add("card-name", "cap");
+        nameH3Element.classList.add("card-name", "cap");
 
-      nameH3Element.innerText = randomPersonInfo.results[i].name.first + " " + randomPersonInfo.results[i].name.last;
+        nameH3Element.innerText = randomPersonInfo.results[i].name.first + " " + randomPersonInfo.results[i].name.last;
 
-      cardInfoContainerDiv.appendChild(nameH3Element);
+        cardInfoContainerDiv.appendChild(nameH3Element);
 
-      const emailPElement = document.createElement("P");
+        const emailPElement = document.createElement("P");
 
-      emailPElement.classList.add("card-text");
+        emailPElement.classList.add("card-text");
 
-      emailPElement.innerText = randomPersonInfo.results[i].email;
+        emailPElement.innerText = randomPersonInfo.results[i].email;
 
-      cardInfoContainerDiv.appendChild(emailPElement);
+        cardInfoContainerDiv.appendChild(emailPElement);
 
-      const cityPElement = document.createElement("P");
+        const cityPElement = document.createElement("P");
 
-      cityPElement.classList.add("card-text", "cap");
+        cityPElement.classList.add("card-text", "cap");
 
-      cityPElement.innerText = randomPersonInfo.results[i].location.city + ", " + randomPersonInfo.results[i].location.state
+        cityPElement.innerText = randomPersonInfo.results[i].location.city + ", " + randomPersonInfo.results[i].location.state
 
-      cardInfoContainerDiv.appendChild(cityPElement);
+        cardInfoContainerDiv.appendChild(cityPElement);
 
     }
 
@@ -215,7 +282,24 @@ galleryDiv.addEventListener('click', (event) => {
 
     const i = parseInt(cardElement.getAttribute("data-index"));
 
-    modalImage.setAttribute("src", randomPersonInfo.results[i].picture.large)
+    displayModalWindow(i);
+
+}
+
+});
+
+
+
+//displays the modal window based on a given index (i) of the person in the gallery
+function displayModalWindow(i)
+{
+  
+  modalContainerDiv.setAttribute("data-index", i.toString());
+  
+  modalImage.setAttribute("src", randomPersonInfo.results[i].picture.large);
+
+    
+  modalNameH3Element.id = randomPersonInfo.results[i].name.first + "-" + randomPersonInfo.results[i].name.last;
 
     modalNameH3Element.innerText = randomPersonInfo.results[i].name.first + " " + randomPersonInfo.results[i].name.last;
 
@@ -253,8 +337,39 @@ galleryDiv.addEventListener('click', (event) => {
 
 }
 
+
+//event listener for the modal previous button--displays the modal window for the previous index gallery member
+modalPrevButton.addEventListener('click', () => {
+
+  const currentIndex = parseInt(modalContainerDiv.getAttribute("data-index"));
+
+  if (currentIndex !== 0)
+  {
+    const newIndex = currentIndex - 1;
+
+    displayModalWindow(newIndex);
+
+  }
+  
+
 });
 
+
+//event listener for the modal previous button--displays the modal window for the next index gallery member
+modalNextButton.addEventListener('click', () => {
+
+  const currentIndex = parseInt(modalContainerDiv.getAttribute("data-index"));
+
+  if (currentIndex !== galleryPopulation - 1)
+  {
+    const newIndex = currentIndex + 1;
+
+    displayModalWindow(newIndex);
+
+  }
+  
+
+});
 
 
 //hides the modal window when user clicks on the modal close button
@@ -263,3 +378,95 @@ modalCloseButton.addEventListener('click', (event) => {
   modalContainerDiv.style.display = "none";
 
 });
+
+
+
+
+
+//execute the search if the search button is clicked
+searchSubmit.addEventListener('click', () => {
+  
+  const inputText = searchInputField.value;
+
+  executeSearch(inputText);
+
+});
+
+
+//execute the search if there is a keyup event in the input field
+searchInputField.addEventListener('keyup', () => {
+
+  const inputText = searchInputField.value;
+
+  executeSearch(inputText);
+
+});
+
+
+/*
+  executes search by assigning match class to cards based on search terms
+  and shows/hides cards accordingly
+*/
+function executeSearch(searchText)
+{
+
+  assignMatchClassToCards(searchText);
+
+  const matchCol = getMatchCollection();
+
+  const nonMatchCol = getNonMatchCollection();
+
+      for (i = 0; i < nonMatchCol.length; i++)
+      {
+            nonMatchCol[i].style.display = "none";
+      }
+
+      for (i = 0; i < matchCol.length; i++)
+      {
+            matchCol[i].style.display = "flex";
+      }
+
+}
+
+
+
+
+
+//assigns the "match" class to cards based on a search string
+function assignMatchClassToCards(searchString)
+{
+   for (i = 0; i < galleryDiv.children.length; i++)
+   {
+
+      //first reset by removing all match class assignments
+      galleryDiv.children[i].classList.remove("match");
+      
+
+      const personName = randomPersonInfo.results[i].name.first + " " + randomPersonInfo.results[i].name.last;
+
+
+      if((searchString.length > 0 && personName.toLowerCase().includes(searchString.toLowerCase())) || searchString.length == 0)
+      {
+        galleryDiv.children[i].classList.add("match");
+      }
+
+   }
+
+}
+
+
+//gets the collection of gallery cards with match class
+function getMatchCollection()
+{
+   const matchList = document.querySelectorAll("div.card.match")
+
+   return matchList;
+}
+
+//gets the collection of gallery cards without match class
+function getNonMatchCollection()
+{
+   const nonMatchList = document.querySelectorAll("div.card:not(.match)");
+
+   return nonMatchList;
+}
